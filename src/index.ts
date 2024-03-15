@@ -82,16 +82,18 @@ export const multipage = (config?: Config): Plugin => {
           const path = fileName.split("-")[0] + ".html";
           const page = path.split("/").pop();
 
+          if (!page) return;
+
           // Vue specific fix
           if (page === "runtime.html") return;
 
           this.emitFile({
             type: "asset",
             fileName: page,
-            source: code.html(fileName),
+            source: code.html(fileName, page, config),
           });
         }
       }
-    }
+    },
   };
 }
