@@ -6,16 +6,20 @@ import { dirname, resolve } from "path";
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
+  let framework = "";
 
   return {
     name: "vite-multipage",
     config: () => {
-      const pages = glob.sync("**/*.svelte", {
+      const pages = glob.sync("**/*.{svelte,vue}", {
         cwd: root,
         onlyFiles: true
       });
 
-      const entries = pages.map((page) => {
+      const entries = pages.map((page, i) => {
+        // Get framework from file extension
+        if (i === 0) framework = page.split('.').pop() || '';
+
         const name = dirname(page);
 
         if (name === "." || !name) return "index";
@@ -61,9 +65,15 @@ export const multipage = (config?: Config): Plugin => {
 
       id = normalizePath(id);
 
-      const page = id.replace('main.ts', 'index.svelte');
+      if (framework === "") throw new Error('Framework not found');
 
-      return code.svelte(page);
+      const page = id.replace('main.ts', `index.${framework}`);
+
+      if (framework === "svelte") {
+        return code.svelte(page);
+      } else if (framework === "vue") {
+        return code.vue(page);
+      }
     },
 
     generateBundle(_, bundle) {
@@ -71,6 +81,9 @@ export const multipage = (config?: Config): Plugin => {
         if (fileName.endsWith(".js")) {
           const path = fileName.split("-")[0] + ".html";
           const page = path.split("/").pop();
+
+          // Vue specific fix
+          if (page === "runtime.html") return;
 
           this.emitFile({
             type: "asset",

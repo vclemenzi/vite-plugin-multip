@@ -27,4 +27,13 @@ export default {
       export default app
     `;
   },
+
+  vue: (file: string) => {
+    return `
+      import { createApp } from 'vue'
+      import App from '${file}'
+      
+      createApp(App).mount('#app')
+    `;
+  }
 }
