@@ -1,5 +1,5 @@
 {
-  "name": "vite-multipage",
+  "name": "vite-plugin-multi-page",
   "version": "1.0.0",
   "description": "Build multipage application",
   "license": "ISC",
