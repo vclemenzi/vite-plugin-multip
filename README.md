@@ -22,8 +22,8 @@ export default defineConfig({
   ],
 })
 ```
-
-*Note: In the above example, the Svelte adapter is used, but the plugin also automatically supports Vue and React.*
+> [!NOTE]
+> In the above example, the Svelte adapter is used, but the plugin also automatically supports Vue and React.
 
 Now, let's start by creating the appropriate directories:
 
@@ -40,8 +40,8 @@ Now, build:
 ```bash
 npm run build
 ```
-
-*The `dist/` directory can be directly integrated with your backend without modification.*
+> [!NOTE]
+> The `dist/` directory can be directly integrated with your backend without modification.
 
 ## Why?
 
