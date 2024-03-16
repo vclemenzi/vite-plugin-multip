@@ -77,10 +77,9 @@ export const multipage = (config?: Config): Plugin => {
     },
 
     generateBundle(_, bundle) {
-      for (const [fileName] of Object.entries(bundle)) {
+      for (const [fileName, chunk] of Object.entries(bundle)) {
         if (fileName.endsWith(".js")) {
-          const path = fileName.split("-")[0] + ".html";
-          const page = path.split("/").pop();
+          const page = chunk.name + "/index.html";
 
           if (!page) return;
 
