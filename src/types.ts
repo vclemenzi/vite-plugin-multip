@@ -1,11 +1,11 @@
-import type { Options } from "html-minifier-terser";
+import type { Options } from "html-minifier-terser"
 
 export type Config = {
-  directory?: string;
-  page?: Page;
-  minify?: Options;
-};
+  directory?: string
+  page?: Page
+  minify?: Options
+}
 
 export type Page = {
-  title?: string | ((file: string) => string);
+  title?: string | ((file: string) => string)
 }

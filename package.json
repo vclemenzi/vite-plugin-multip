@@ -8,7 +8,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "lint": "tsc"
+    "lint": "tsc",
+    "format": "prettier . --write"
   },
   "keywords": [],
   "author": "Valerio Clemenzi",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^20.11.27",
+    "prettier": "3.2.5",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
   }

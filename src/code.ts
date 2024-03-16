@@ -1,19 +1,20 @@
-import type { Config } from "./types";
-import { minify } from "html-minifier-terser";
+import type { Config } from "./types"
+import { minify } from "html-minifier-terser"
 
 export default {
   async html(file: string, name: string, config?: Config) {
-    let title = name.charAt(0).toUpperCase() + name.slice(1);
+    let title = name.charAt(0).toUpperCase() + name.slice(1)
 
     if (config?.page?.title) {
       if (typeof config.page.title === "function") {
-        title = config.page.title(file);
+        title = config.page.title(file)
       } else {
-        title = config.page.title;
+        title = config.page.title
       }
     }
 
-    const result = await minify(`
+    const result = await minify(
+      `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -26,13 +27,15 @@ export default {
         <script type="module" src="/${file}"></script>
       </body>
       </html>
-    `, {
-      collapseWhitespace: config?.minify?.collapseWhitespace || true,
-      removeComments: config?.minify?.removeComments || true,
-      ...config?.minify,
-    });
+    `,
+      {
+        collapseWhitespace: config?.minify?.collapseWhitespace || true,
+        removeComments: config?.minify?.removeComments || true,
+        ...config?.minify,
+      }
+    )
 
-    return result;
+    return result
   },
 
   svelte: (file: string): string => {
@@ -44,7 +47,7 @@ export default {
       })
 
       export default app
-    `;
+    `
   },
 
   vue: (file: string): string => {
@@ -53,7 +56,7 @@ export default {
       import App from '${file}'
       
       createApp(App).mount('#app')
-    `;
+    `
   },
 
   react: (file: string): string => {
@@ -67,6 +70,6 @@ export default {
           <App />
         </React.StrictMode>,
       )
-    `;
-  }
+    `
+  },
 }
