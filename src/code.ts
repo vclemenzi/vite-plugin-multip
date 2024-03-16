@@ -12,7 +12,6 @@ export default {
       }
     }
 
-
     return `
       <!DOCTYPE html>
       <html lang="en">
@@ -26,10 +25,10 @@ export default {
         <script type="module" src="/${file}"></script>
       </body>
       </html>
-          `;
+    `;
   },
 
-  svelte: (file: string) => {
+  svelte: (file: string): string => {
     return `
       import App from '${file}'
             
@@ -41,12 +40,26 @@ export default {
     `;
   },
 
-  vue: (file: string) => {
+  vue: (file: string): string => {
     return `
       import { createApp } from 'vue'
       import App from '${file}'
       
       createApp(App).mount('#app')
+    `;
+  },
+
+  react: (file: string): string => {
+    return `
+      import React from 'react'
+      import ReactDOM from 'react-dom/client'
+      import App from '${file}'
+
+      ReactDOM.createRoot(document.getElementById('app')!).render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>,
+      )
     `;
   }
 }

@@ -3,22 +3,23 @@ import type { Config } from "./types";
 import glob from "fast-glob";
 import code from "./code";
 import { dirname, resolve } from "path";
+import { isPackage } from "./utils/isPackage";
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
   let framework = "";
 
   return {
-    name: "vite-multipage",
+    name: "vite-plugin-multi-page",
     config: () => {
-      const pages = glob.sync("**/*.{svelte,vue}", {
+      const pages = glob.sync("**/*.{svelte,vue,tsx}", {
         cwd: root,
         onlyFiles: true
       });
 
       const entries = pages.map((page, i) => {
         // Get framework from file extension
-        if (i === 0) framework = page.split('.').pop() || '';
+        if (i === 0 && !framework) framework = page.split('.').pop() || '';
 
         const name = dirname(page);
 
@@ -28,12 +29,14 @@ export const multipage = (config?: Config): Plugin => {
       });
 
       const input = entries.reduce((acc: Record<string, string>, page) => {
+        const fileName = `main.ts${framework === "tsx" ? "x" : ""}`;
+
         if (page === "index") {
-          acc[page] = resolve(root, "main.ts");
+          acc[page] = resolve(root, fileName);
           return acc;
         }
 
-        acc[page] = resolve(root, page, "main.ts");
+        acc[page] = resolve(root, page, fileName);
 
         return acc;
       }, {});
@@ -57,34 +60,43 @@ export const multipage = (config?: Config): Plugin => {
     },
 
     resolveId(id) {
-      return id.includes("main.ts") ? id : null;
+      const fileName = `main.ts${framework === "tsx" ? "x" : ""}`
+
+      return id.includes(fileName) ? id : null;
     },
 
     load(id) {
-      if (!id.endsWith("main.ts")) return null;
+      if (framework === "") throw new Error('Framework not found');
+
+      const fileName = `main.ts${framework === "tsx" ? "x" : ""}`;
+
+      if (!id.endsWith(fileName)) return null;
 
       id = normalizePath(id);
 
-      if (framework === "") throw new Error('Framework not found');
-
-      const page = id.replace('main.ts', `index.${framework}`);
+      const page = id.replace(fileName, `index.${framework}`);
 
       if (framework === "svelte") {
         return code.svelte(page);
       } else if (framework === "vue") {
         return code.vue(page);
+      } else if (framework === "tsx") {
+        return code.react(page);
       }
     },
 
     generateBundle(_, bundle) {
       for (const [fileName, chunk] of Object.entries(bundle)) {
+        if (chunk.type !== "chunk") continue;
+
         if (fileName.endsWith(".js")) {
-          const page = chunk.name + "/index.html";
+          let page = `${chunk.name}/index.html`;
 
-          if (!page) return;
+          if (chunk.name === "index") {
+            page = "index.html";
+          }
 
-          // Vue specific fix
-          if (page === "runtime.html") return;
+          if (isPackage(chunk.moduleIds)) return;
 
           this.emitFile({
             type: "asset",
