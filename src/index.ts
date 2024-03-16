@@ -85,7 +85,7 @@ export const multipage = (config?: Config): Plugin => {
       }
     },
 
-    generateBundle(_, bundle) {
+    async generateBundle(_, bundle) {
       for (const [fileName, chunk] of Object.entries(bundle)) {
         if (chunk.type !== "chunk") continue;
 
@@ -98,10 +98,12 @@ export const multipage = (config?: Config): Plugin => {
 
           if (isPackage(chunk.moduleIds)) return;
 
+          const output = await code.html(fileName, page, config);
+
           this.emitFile({
             type: "asset",
             fileName: page,
-            source: code.html(fileName, page, config),
+            source: output,
           });
         }
       }

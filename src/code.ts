@@ -1,7 +1,8 @@
 import type { Config } from "./types";
+import { minify } from "html-minifier-terser";
 
 export default {
-  html: (file: string, name: string, config?: Config) => {
+  async html(file: string, name: string, config?: Config) {
     let title = name.charAt(0).toUpperCase() + name.slice(1);
 
     if (config?.page?.title) {
@@ -12,7 +13,7 @@ export default {
       }
     }
 
-    return `
+    const result = await minify(`
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -25,7 +26,13 @@ export default {
         <script type="module" src="/${file}"></script>
       </body>
       </html>
-    `;
+    `, {
+      collapseWhitespace: config?.minify?.collapseWhitespace || true,
+      removeComments: config?.minify?.removeComments || true,
+      ...config?.minify,
+    });
+
+    return result;
   },
 
   svelte: (file: string): string => {
