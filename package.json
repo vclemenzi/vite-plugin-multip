@@ -3,11 +3,11 @@
   "version": "0.0.1-beta.1",
   "description": "Build real multi page application with vite",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "tsup src/index.ts --format esm --dts",
     "lint": "tsc",
     "format": "prettier . --write"
   },

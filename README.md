@@ -1,6 +1,6 @@
 # vite-plugin-multip
 
-The `vite-plugin-multi-page` plugin allows you to create multi-page applications with Vite!
+The `vite-plugin-multip` plugin allows you to create multi-page applications with Vite!
 
 ## Setup
 
