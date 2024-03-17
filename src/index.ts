@@ -3,8 +3,6 @@ import type { Config } from "./types"
 import glob from "fast-glob"
 import code from "./code"
 import { dirname, resolve } from "path"
-import { isPackage } from "./utils/isPackage"
-import { getFileName } from "./utils/getFileName"
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages"
@@ -30,10 +28,10 @@ export const multipage = (config?: Config): Plugin => {
       })
 
       const input = entries.reduce((acc: Record<string, string>, page) => {
-        const fileName = getFileName(framework)
+        const fileName = "index.html";
 
         if (page === "index") {
-          acc[page] = resolve(root, fileName)
+          acc["main"] = resolve(root, fileName)
           return acc
         }
 
@@ -43,33 +41,25 @@ export const multipage = (config?: Config): Plugin => {
       }, {})
 
       return {
+        root,
         build: {
           rollupOptions: {
             input,
-            output: {
-              assetFileNames: (chunkInfo) => {
-                if (!chunkInfo.name) return "assets/[name].[ext]"
-
-                const isPage = chunkInfo.name.endsWith(".html")
-
-                return isPage ? chunkInfo.name : "assets/[name].[ext]"
-              },
-            },
           },
         },
       }
     },
 
     resolveId(id) {
-      const fileName = getFileName(framework)
+      const fileName = "index.html";
 
       return id.includes(fileName) ? id : null
     },
 
-    load(id) {
+    async load(id) {
       if (framework === "") throw new Error("Framework not found")
 
-      const fileName = getFileName(framework)
+      const fileName = "index.html";
 
       if (!id.endsWith(fileName)) return null
 
@@ -78,35 +68,17 @@ export const multipage = (config?: Config): Plugin => {
       const page = id.replace(fileName, `index.${framework}`)
 
       if (framework === "svelte") {
-        return code.svelte(page)
+        const result = await code.svelte(page)
+
+        return result
       } else if (framework === "vue") {
-        return code.vue(page)
+        const result = await code.vue(page)
+
+        return result
       } else if (framework === "tsx") {
-        return code.react(page)
-      }
-    },
+        const result = await code.react(page);
 
-    async generateBundle(_, bundle) {
-      for (const [fileName, chunk] of Object.entries(bundle)) {
-        if (chunk.type !== "chunk") continue
-
-        if (fileName.endsWith(".js")) {
-          let page = `${chunk.name}/index.html`
-
-          if (chunk.name === "index") {
-            page = "index.html"
-          }
-
-          if (isPackage(chunk.moduleIds)) return
-
-          const output = await code.html(fileName, page, config)
-
-          this.emitFile({
-            type: "asset",
-            fileName: page,
-            source: output,
-          })
-        }
+        return result
       }
     },
   }
