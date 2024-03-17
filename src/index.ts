@@ -43,8 +43,15 @@ export const multipage = (config?: Config): Plugin => {
       return {
         root,
         build: {
+          outDir: "dist",
           rollupOptions: {
             input,
+            output: {
+              format: 'es',
+              strict: false,
+              entryFileNames: "[name]-[hash].js",
+              dir: 'dist/'
+            }
           },
         },
       }
