@@ -23,6 +23,7 @@
   "dependencies": {
     "fast-glob": "^3.3.2",
     "html-minifier-terser": "^7.2.0",
+    "mime": "^4.0.1",
     "vite": "^5.1.6"
   },
   "devDependencies": {

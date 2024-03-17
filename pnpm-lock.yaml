@@ -11,6 +11,9 @@ dependencies:
   html-minifier-terser:
     specifier: ^7.2.0
     version: 7.2.0
+  mime:
+    specifier: ^4.0.1
+    version: 4.0.1
   vite:
     specifier: ^5.1.6
     version: 5.1.6(@types/node@20.11.27)
@@ -1151,6 +1154,15 @@ packages:
     dependencies:
       braces: 3.0.2
       picomatch: 2.3.1
+
+  /mime@4.0.1:
+    resolution:
+      {
+        integrity: sha512-5lZ5tyrIfliMXzFtkYyekWbtRXObT9OWa8IwQ5uxTBDHucNNwniRqo0yInflj+iYi5CBa6qxadGzGarDfuEOxA==,
+      }
+    engines: { node: ">=16" }
+    hasBin: true
+    dev: false
 
   /mimic-fn@2.1.0:
     resolution:

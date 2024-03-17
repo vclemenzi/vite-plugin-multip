@@ -1,9 +1,10 @@
-import type { Config } from "./types"
-import { minify } from "html-minifier-terser"
+import type { Config } from "./types";
+import { minify } from "html-minifier-terser";
 
 export default {
   async svelte(file: string, config?: Config): Promise<string> {
-    const result = await minify(`
+    const result = await minify(
+      `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -20,16 +21,19 @@ export default {
           </script>
         </body>
       </html>
-    `, {
-      collapseWhitespace: config?.minify?.collapseWhitespace || true,
-      removeComments: config?.minify?.removeComments || true,
-    });
+    `,
+      {
+        collapseWhitespace: config?.minify?.collapseWhitespace || true,
+        removeComments: config?.minify?.removeComments || true,
+      }
+    );
 
     return result;
   },
 
   async vue(file: string, config?: Config): Promise<string> {
-    const result = await minify(`
+    const result = await minify(
+      `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -46,16 +50,19 @@ export default {
           </script>
         </body>
       </html>
-    `, {
-      collapseWhitespace: config?.minify?.collapseWhitespace || true,
-      removeComments: config?.minify?.removeComments || true,
-    });
+    `,
+      {
+        collapseWhitespace: config?.minify?.collapseWhitespace || true,
+        removeComments: config?.minify?.removeComments || true,
+      }
+    );
 
     return result;
   },
 
   async react(file: string, config?: Config): Promise<string> {
-    const result = await minify(`
+    const result = await minify(
+      `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -76,12 +83,13 @@ export default {
           </script>
         </body>
       </html>
-    `, {
-      collapseWhitespace: config?.minify?.collapseWhitespace || true,
-      removeComments: config?.minify?.removeComments || true,
-    });
+    `,
+      {
+        collapseWhitespace: config?.minify?.collapseWhitespace || true,
+        removeComments: config?.minify?.removeComments || true,
+      }
+    );
 
     return result;
   },
 };
-
