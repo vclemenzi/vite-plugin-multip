@@ -1,11 +1,11 @@
-# vite-plugin-multi-page
+# vite-plugin-multip
 
 The `vite-plugin-multi-page` plugin allows you to create multi-page applications with Vite!
 
 ## Setup
 
 ```bash
-npm i vite-plugin-multi-page
+npm i vite-plugin-multip
 ```
 
 After installing the plugin, proceed with initialization in the `vite.config.ts` file:
@@ -13,7 +13,7 @@ After installing the plugin, proceed with initialization in the `vite.config.ts`
 ```typescript
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import { multipage } from "vite-plugin-multi-page";
+import { multipage } from "vite-plugin-multip";
 
 export default defineConfig({
   plugins: [
