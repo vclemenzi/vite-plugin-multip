@@ -11,7 +11,7 @@ export const multipage = (config?: Config): Plugin => {
   return {
     name: "vite-plugin-multi-page",
     config: () => {
-      const pages = glob.sync("**/*.{svelte,vue,tsx}", {
+      const pages = glob.sync("**/*.{svelte,vue,tsx,jsx}", {
         cwd: root,
         onlyFiles: true,
       })
@@ -75,17 +75,11 @@ export const multipage = (config?: Config): Plugin => {
       const page = id.replace(fileName, `index.${framework}`)
 
       if (framework === "svelte") {
-        const result = await code.svelte(page)
-
-        return result
+        return await code.svelte(page)
       } else if (framework === "vue") {
-        const result = await code.vue(page)
-
-        return result
-      } else if (framework === "tsx") {
-        const result = await code.react(page);
-
-        return result
+        return await code.vue(page)
+      } else if (framework === "tsx" || framework === "jsx") {
+        return await code.react(page);
       }
     },
   }
