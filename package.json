@@ -1,8 +1,8 @@
 {
   "name": "vite-plugin-multip",
   "version": "0.0.1-beta.0",
-  "description": "Build multipage application",
-  "license": "ISC",
+  "description": "Build real multi page application with vite",
+  "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -11,7 +11,14 @@
     "lint": "tsc",
     "format": "prettier . --write"
   },
-  "keywords": [],
+  "keywords": [
+    "vite",
+    "mpa",
+    "plugin",
+    "multi",
+    "page",
+    "application",
+  ],
   "author": "Valerio Clemenzi",
   "dependencies": {
     "fast-glob": "^3.3.2",
