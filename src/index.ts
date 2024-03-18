@@ -1,7 +1,7 @@
 import { normalizePath, type Plugin } from "vite";
 import type { Config } from "./types";
+import { generateBoilerplate } from "./boilerplate";
 import glob from "fast-glob";
-import code from "./code";
 import { dirname, resolve } from "path";
 import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
@@ -53,6 +53,8 @@ export const multipage = (config?: Config): Plugin => {
               format: "es",
               strict: false,
               entryFileNames: "assets/[name]-[hash].js",
+              chunkFileNames: "assets/[name]-[hash].js",
+              assetFileNames: "assets/[name]-[hash].[ext]",
               dir: "dist/",
             },
           },
@@ -75,13 +77,7 @@ export const multipage = (config?: Config): Plugin => {
 
       const page = id.replace(fileName, `index.${framework}`);
 
-      if (framework === "svelte") {
-        return await code.svelte(page);
-      } else if (framework === "vue") {
-        return await code.vue(page);
-      } else if (framework === "tsx" || framework === "jsx") {
-        return await code.react(page);
-      }
+      return generateBoilerplate(page, framework, config || {})
     },
 
     configureServer: createServer,
