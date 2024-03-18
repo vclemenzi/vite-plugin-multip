@@ -33,7 +33,7 @@ export const multipage = (config?: Config): Plugin => {
         const fileName = "index.html";
 
         if (page === "index") {
-          acc["main"] = resolve(root, fileName);
+          acc[page] = resolve(root, fileName);
           return acc;
         }
 
@@ -52,7 +52,7 @@ export const multipage = (config?: Config): Plugin => {
             output: {
               format: "es",
               strict: false,
-              entryFileNames: "[name]-[hash].js",
+              entryFileNames: "assets/[name]-[hash].js",
               dir: "dist/",
             },
           },
@@ -61,9 +61,7 @@ export const multipage = (config?: Config): Plugin => {
     },
 
     resolveId(id) {
-      const fileName = "index.html";
-
-      return id.includes(fileName) ? id : null;
+      return id.includes("index.html") ? id : null;
     },
 
     async load(id) {

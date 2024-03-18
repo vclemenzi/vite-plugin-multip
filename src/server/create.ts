@@ -13,8 +13,6 @@ export const createServer = (server: ViteDevServer) => {
   server.middlewares.use((req, res) => {
     if (!req.url) return;
 
-    res.setHeader("Cache-Control", "public, max-age=31536000");
-
     if (!/\.[a-z]+$/.test(req.url)) {
       return res.end(fs.readFileSync(`dist${req.url}/index.html`));
     }
@@ -24,4 +22,4 @@ export const createServer = (server: ViteDevServer) => {
     res.setHeader("Content-Type", mime.getType(ext) || "text/plain");
     return res.end(fs.readFileSync(`dist${req.url}`));
   });
-};
+};;

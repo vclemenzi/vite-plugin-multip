@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Counter from "../components/Counter.svelte"
+  import Counter from "../components/Counter.svelte";
 
-  let name = "world"
+  let name = "world";
 </script>
 
 <h1>Hello {name}!</h1>
