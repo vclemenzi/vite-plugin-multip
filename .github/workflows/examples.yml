@@ -21,6 +21,9 @@ jobs:
       with:
         node-version: '20'
 
+    - name: Install Dependencies
+      run: npm install
+
     - name: Build Examples
       run: |
         cd examples
