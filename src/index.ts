@@ -1,6 +1,6 @@
 import { normalizePath, type Plugin } from "vite";
 import type { Config } from "./types";
-import glob from "fast-glob";
+import glob from "tiny-glob";
 import { generateBoilerplate } from "./boilerplate";
 import { dirname, resolve } from "path";
 import { createServer } from "./server/create";
@@ -12,10 +12,10 @@ export const multipage = (config?: Config): Plugin => {
 
   return {
     name: "vite-plugin-multi-page",
-    config: () => {
-      const pages = glob.sync("**/*.{svelte,vue,tsx,jsx}", {
+    async config() {
+      const pages = await glob("**/*.{svelte,vue,tsx,jsx}", {
         cwd: root,
-        onlyFiles: true,
+        filesOnly: true,
       });
 
       const entries = pages.map((page) => {
