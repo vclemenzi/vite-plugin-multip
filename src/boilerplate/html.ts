@@ -18,6 +18,7 @@ export const html = async (body: string, config?: Config): Promise<string> => {
   const result = await minify(code, {
     collapseWhitespace: config?.minify?.collapseWhitespace || true,
     removeComments: config?.minify?.removeComments || true,
+    ...config?.minify,
   });
 
   return result;

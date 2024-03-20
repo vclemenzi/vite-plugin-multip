@@ -1,14 +1,14 @@
 import { normalizePath, type Plugin } from "vite";
 import type { Config } from "./types";
-import { generateBoilerplate } from "./boilerplate";
 import glob from "fast-glob";
+import { generateBoilerplate } from "./boilerplate";
 import { dirname, resolve } from "path";
 import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
-  let framework = "";
+  let framework = config?.framework || "";
 
   return {
     name: "vite-plugin-multi-page",
@@ -18,9 +18,9 @@ export const multipage = (config?: Config): Plugin => {
         onlyFiles: true,
       });
 
-      const entries = pages.map((page, i) => {
+      const entries = pages.map((page) => {
         // Get framework from file extension
-        if (i === 0 && !framework) framework = page.split(".").pop() || "";
+        if (!framework) framework = page.split(".").pop() || "";
 
         const name = dirname(page);
 
@@ -77,7 +77,7 @@ export const multipage = (config?: Config): Plugin => {
 
       const page = id.replace(fileName, `index.${framework}`);
 
-      return generateBoilerplate(page, framework, config || {})
+      return await generateBoilerplate(page, framework, config || {})
     },
 
     configureServer: createServer,

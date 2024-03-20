@@ -6,8 +6,10 @@ export const react = (file: string): string => {
       import ReactDOM from 'react-dom/client';
       import App from '${file}';
 
+      const e = React.createElement;
+
       ReactDOM.createRoot(document.getElementById('app')).render(
-        "<React.StrictMode><App /></React.StrictMode>"
+        e(App, null)
       );
     </script>
   `;

@@ -1,0 +1,32 @@
+name: Build Examples
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Build Examples
+      run: |
+        cd examples
+        for folder in */; do
+          cd $folder
+          npm install 
+          npm run build 
+          cd ..
+        done
