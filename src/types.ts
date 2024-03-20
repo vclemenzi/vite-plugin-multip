@@ -1,4 +1,5 @@
 import type { Options } from "html-minifier-terser";
+import type { Target } from "rollup-plugin-copy";
 
 export type Config = {
   directory?: string;
@@ -6,6 +7,7 @@ export type Config = {
   framework?: string;
   customHtml?: string;
   minify?: Options;
+  assets?: Target[];
 };
 
 export type Page = {

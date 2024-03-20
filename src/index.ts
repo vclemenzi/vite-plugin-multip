@@ -5,9 +5,11 @@ import { generateBoilerplate } from "./boilerplate";
 import { dirname, resolve } from "path";
 import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
+import copy from 'rollup-plugin-copy'
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
+  const assets = config?.assets || [];
   let framework = config?.framework || "";
 
   return {
@@ -42,11 +44,25 @@ export const multipage = (config?: Config): Plugin => {
         return acc;
       }, {});
 
+
       return {
         root,
         build: {
+          outDir: "dist",
+          emptyOutDir: true,
           rollupOptions: {
             input,
+            output: {
+              dir: "dist",
+            },
+            plugins: [
+              copy({
+                targets: [
+                  { src: 'public/*', dest: 'dist/' },
+                  ...assets,
+                ],
+              }),
+            ]
           },
         },
       };
