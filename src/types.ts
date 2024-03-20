@@ -4,6 +4,7 @@ export type Config = {
   directory?: string;
   page?: Page;
   framework?: string;
+  customHtml?: string;
   minify?: Options;
 };
 
