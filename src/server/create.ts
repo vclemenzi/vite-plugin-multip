@@ -14,10 +14,14 @@ export const createServer = (server: ViteDevServer) => {
     if (!req.url) return;
 
     if (!/\.[a-z]+$/.test(req.url)) {
+      if (!fs.existsSync(`dist${req.url}/index.html`)) return res.end("404");
+
       return res.end(fs.readFileSync(`dist${req.url}/index.html`));
     }
 
     const ext = req.url.split(".").pop() || "";
+
+    if (!fs.existsSync(`dist${req.url}`)) return res.end("404");
 
     res.setHeader("Content-Type", mime.getType(ext) || "text/plain");
     return res.end(fs.readFileSync(`dist${req.url}`));
