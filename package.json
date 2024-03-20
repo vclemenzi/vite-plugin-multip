@@ -10,7 +10,7 @@
     "build": "tsup src/index.ts --format esm --dts",
     "lint": "tsc",
     "format": "prettier . --write",
-    "publish": "pnpm run build && pnpm publish --access public",
+    "publish": "pnpm run build && pnpm publish --access public"
   },
   "repository": {
     "type": "git",
