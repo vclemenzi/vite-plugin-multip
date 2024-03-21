@@ -1,11 +1,12 @@
-import { normalizePath, type Plugin } from "vite";
+import type { Plugin } from "vite";
 import type { Config } from "./types";
 import glob from "tiny-glob";
 import { generateBoilerplate } from "./boilerplate";
-import { dirname, resolve } from "path";
+import { dirname } from "path";
+import { resolve } from "./utils/resolve";
 import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
-import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy';
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
@@ -35,15 +36,14 @@ export const multipage = (config?: Config): Plugin => {
         const fileName = "index.html";
 
         if (page === "index") {
-          acc[page] = normalizePath(resolve(root, fileName));
+          acc[page] = resolve(root, fileName);
           return acc;
         }
 
-        acc[page] = normalizePath(resolve(root, page, fileName));
+        acc[page] = resolve(root, page, fileName);
 
         return acc;
       }, {});
-
 
       return {
         root,
@@ -79,7 +79,7 @@ export const multipage = (config?: Config): Plugin => {
 
       if (!id.endsWith(fileName)) return null;
 
-      id = normalizePath(id);
+      id = resolve(id);
 
       const page = id.replace(fileName, `index.${framework}`);
 

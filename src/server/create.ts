@@ -2,6 +2,7 @@ import type { ViteDevServer } from "vite";
 import fs from "fs";
 import mime from "mime";
 import { hotupdate } from "./hot";
+import path from "path";
 
 // This feature is in beta, so it may not work as expected
 // I hope I'll find a better way to do this
@@ -11,19 +12,28 @@ export const createServer = (server: ViteDevServer) => {
   hotupdate();
 
   server.middlewares.use((req, res) => {
-    if (!req.url) return;
+    const url = req.url?.split("?")[0] || "";
 
-    if (!/\.[a-z]+$/.test(req.url)) {
-      if (!fs.existsSync(`dist${req.url}/index.html`)) return res.end("404");
+    let filePath = path.join('dist', url);
 
-      return res.end(fs.readFileSync(`dist${req.url}/index.html`));
+    if (fs.statSync(filePath).isDirectory()) {
+      filePath = path.join(filePath, 'index.html');
     }
 
-    const ext = req.url.split(".").pop() || "";
+    if (!fs.existsSync(filePath)) {
+      res.statusCode = 404;
+      return res.end("404");
+    }
 
-    if (!fs.existsSync(`dist${req.url}`)) return res.end("404");
+    const ext = path.extname(filePath).slice(1);
+
+    if (!fs.existsSync(filePath)) {
+      res.statusCode = 404;
+      return res.end("404");
+    }
 
     res.setHeader("Content-Type", mime.getType(ext) || "text/plain");
-    return res.end(fs.readFileSync(`dist${req.url}`));
+
+    return fs.createReadStream(filePath).pipe(res);
   });
-};;
+};
