@@ -35,11 +35,11 @@ export const multipage = (config?: Config): Plugin => {
         const fileName = "index.html";
 
         if (page === "index") {
-          acc[page] = resolve(root, fileName);
+          acc[page] = normalizePath(resolve(root, fileName));
           return acc;
         }
 
-        acc[page] = resolve(root, page, fileName);
+        acc[page] = normalizePath(resolve(root, page, fileName));
 
         return acc;
       }, {});
