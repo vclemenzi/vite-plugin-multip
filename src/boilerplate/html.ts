@@ -2,13 +2,13 @@ import { minify } from "html-minifier-terser";
 import type { Config } from "../types";
 import fs from "fs";
 
-export const html = async (body: string, config?: Config): Promise<string> => {
+export const html = async (body: string, config?: Config, layout?: string) => {
   let code = "";
 
-  if (config?.customHtml) {
-    const customHtml = fs.readFileSync(config.customHtml, "utf-8");
+  if (layout && fs.existsSync(layout)) {
+    const customHtml = fs.readFileSync(layout, "utf-8");
 
-    code = customHtml.replace("{% body %}", body);
+    code = customHtml.replace("<slot />", body);
   } else {
     code = `
       <!DOCTYPE html>

@@ -83,7 +83,22 @@ export const multipage = (config?: Config): Plugin => {
 
       const page = id.replace(fileName, `index.${framework}`);
 
-      return await generateBoilerplate(page, framework, config || {})
+      const layouts = await glob("../**/layout.html", {
+        cwd: dirname(id),
+        filesOnly: true,
+      });
+
+      if (layouts.length < 1 || typeof layouts[0] != "string") return await generateBoilerplate(page, framework, config || {}, "");
+
+      const nearestLayout = layouts.sort((a, b) => {
+        return a.split("/").length - b.split("/").length;
+      });
+
+      if (nearestLayout.length < 1 || typeof nearestLayout[0] != "string") throw new Error("Nearest layout not found");
+
+      const layout = resolve(dirname(id), nearestLayout[0]);
+
+      return await generateBoilerplate(page, framework, config || {}, layout);
     },
 
     configureServer: createServer,
