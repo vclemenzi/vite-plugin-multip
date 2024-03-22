@@ -14,10 +14,10 @@ export const createServer = (server: ViteDevServer) => {
   server.middlewares.use((req, res) => {
     const url = req.url?.split("?")[0] || "";
 
-    let filePath = path.join('dist', url);
+    let filePath = path.join("dist", url);
 
     if (fs.statSync(filePath).isDirectory()) {
-      filePath = path.join(filePath, 'index.html');
+      filePath = path.join(filePath, "index.html");
     }
 
     if (!fs.existsSync(filePath)) {

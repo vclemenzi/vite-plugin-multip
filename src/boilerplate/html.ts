@@ -31,4 +31,4 @@ export const html = async (body: string, config?: Config, layout?: string) => {
   });
 
   return result;
-}
+};

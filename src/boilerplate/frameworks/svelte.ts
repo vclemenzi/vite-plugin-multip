@@ -7,4 +7,4 @@ export const svelte = (file: string): string => {
       export default app;
     </script>
   `;
-}
+};

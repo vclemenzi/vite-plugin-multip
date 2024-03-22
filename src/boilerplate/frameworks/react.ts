@@ -13,4 +13,4 @@ export const react = (file: string): string => {
       );
     </script>
   `;
-}
+};

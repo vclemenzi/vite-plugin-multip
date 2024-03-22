@@ -7,27 +7,27 @@ When utilizing the `vite-plugin-multip` plugin, you gain the capability to finel
 Below is a minimalist illustration of a custom layout file, `layout.html`, showcasing the fundamental structure:
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom Layout</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Header</h1>
+      <h1>Header</h1>
     </header>
 
     <main>
-        <!-- Page content will be inserted here -->
-        <slot />
+      <!-- Page content will be inserted here -->
+      <slot />
     </main>
 
     <footer>
-        <p>Footer</p>
+      <p>Footer</p>
     </footer>
-</body>
+  </body>
 </html>
 ```
 

@@ -7,4 +7,4 @@ export const vue = (file: string): string => {
       createApp(App).mount('#app');
     </script>
   `;
-}
+};
