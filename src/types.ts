@@ -4,9 +4,9 @@ import type { Target } from "rollup-plugin-copy";
 export type Config = {
   directory?: string;
   page?: Page;
-  framework?: string;
   minify?: Options;
   assets?: Target[];
+  framework?: string;
 };
 
 export type Page = {

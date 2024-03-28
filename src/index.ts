@@ -6,9 +6,9 @@ import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
 import { getLayout } from "./utils/layouts";
 import { getInputs } from "./utils/input";
+import { getStyles } from "./css/getStyles";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
-import { getStyles } from "./css/getStyles";
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";

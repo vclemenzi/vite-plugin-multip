@@ -22,7 +22,7 @@ export const html = async (body: string, config?: Config, layout?: string) => {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title></title>
+          <title>${config?.page?.title ? config.page.title : "Vite App"}</title>
         </head>
         <body>
           ${body}
