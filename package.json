@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-multip",
-  "version": "0.0.1-beta.13",
+  "version": "0.0.1-beta.14",
   "description": "Build real multi page application with vite",
   "license": "MIT",
   "type": "module",
