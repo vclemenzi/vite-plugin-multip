@@ -8,15 +8,16 @@ export const generateBoilerplate = async (
   file: string,
   framework: string,
   config: Config,
-  layout: string
+  layout: string,
+  css: string[]
 ) => {
   switch (framework) {
     case "svelte":
-      return await html(svelte(file), config, layout);
+      return await html(svelte(file, css), config, layout);
     case "vue":
-      return await html(vue(file), config, layout);
+      return await html(vue(file, css), config, layout);
     case "tsx" || "jsx":
-      return await html(react(file), config, layout);
+      return await html(react(file, css), config, layout);
     default:
       return "";
   }

@@ -8,6 +8,7 @@ import { getLayout } from "./utils/layouts";
 import { getInputs } from "./utils/input";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
+import { getStyles } from "./css/getStyles";
 
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
@@ -62,8 +63,9 @@ export const multipage = (config?: Config): Plugin => {
 
       const page = id.replace(fileName, `index.${framework}`);
       const layout = await getLayout(page);
+      const css = await getStyles(page.replace(`index.${framework}`, ""));
 
-      return await generateBoilerplate(page, framework, config || {}, layout);
+      return await generateBoilerplate(page, framework, config || {}, layout, css);
     },
 
     configureServer: createServer,
