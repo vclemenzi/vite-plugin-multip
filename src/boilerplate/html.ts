@@ -10,7 +10,10 @@ export const html = async (body: string, config?: Config, layout?: string) => {
     const cssPath = layout.replace(".html", ".css");
     const cssExist = fs.existsSync(`${layout.replace(".html", ".css")}`);
 
-    code = customHtml.replace("</head>", `${cssExist ? `<link rel="stylesheet" href="${cssPath}" /></head>` : "</head>"}`);
+    code = customHtml.replace(
+      "</head>",
+      `${cssExist ? `<link rel="stylesheet" href="${cssPath}" /></head>` : "</head>"}`
+    );
     code = code.replace("<slot />", body);
   } else {
     code = `

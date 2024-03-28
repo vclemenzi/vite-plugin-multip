@@ -65,7 +65,13 @@ export const multipage = (config?: Config): Plugin => {
       const layout = await getLayout(page);
       const css = await getStyles(page.replace(`index.${framework}`, ""));
 
-      return await generateBoilerplate(page, framework, config || {}, layout, css);
+      return await generateBoilerplate(
+        page,
+        framework,
+        config || {},
+        layout,
+        css
+      );
     },
 
     configureServer: createServer,

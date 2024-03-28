@@ -1,12 +1,17 @@
-# vite-plugin-multip (beta)
+# vite-plugin-multip
 
-The `vite-plugin-multip` plugin allows you to create multi-page applications with Vite!
+The `vite-plugin-multip` plugin enables you to create multi-page applications with Vite!
 
-## Setup
+- 📦 Automatic CSS file importing
+- 🧬 Layouts Support
+- 🔎 Framework recognition
+
+# Installation
 
 ```bash
-npm i vite-plugin-multip
+npm install vite-plugin-multip
 ```
+*Alternatively, you can use your favorite package manager.*
 
 After installing the plugin, proceed with initialization in the `vite.config.ts` file:
 
@@ -18,12 +23,11 @@ import { multipage } from "vite-plugin-multip";
 export default defineConfig({
   plugins: [
     svelte(),
-    multipage(), // You can pass optional configuration parameters
+    multipage(), // Optional configuration parameters can be passed here
   ],
 });
 ```
-
-> [!NOTE]
+> [!NOTE] 
 > In the above example, the Svelte adapter is used, but the plugin also automatically supports Vue and React.
 
 Now, let's start by creating the appropriate directories:
@@ -44,14 +48,3 @@ npm run build
 
 > [!NOTE]
 > The `dist/` directory can be directly integrated with your backend without modification.
-
-## Why?
-
-This plugin stems from the need to create with Vite a multi-page split application that can be hosted with **ANY** backend.
-
-## Roadmap
-
-- Support for additional frameworks.
-- Layouts
-
-If you have suggestions or questions, feel free to open a issue!

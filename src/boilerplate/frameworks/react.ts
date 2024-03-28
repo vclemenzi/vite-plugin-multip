@@ -1,3 +1,5 @@
+import { generateImports } from "../../css/generateImports";
+
 export const react = (file: string, css: string[]): string => {
   return `
     <div id="app"></div>
@@ -5,7 +7,7 @@ export const react = (file: string, css: string[]): string => {
       import React from 'react';
       import ReactDOM from 'react-dom/client';
       import App from '${file}';
-      ${css.map((file) => `import '${file}';`).join('\n')}
+      ${generateImports(css)}
 
       const e = React.createElement;
 

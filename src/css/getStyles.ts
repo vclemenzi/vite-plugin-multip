@@ -1,4 +1,4 @@
-import glob from "tiny-glob"
+import glob from "tiny-glob";
 import { resolve } from "../utils/resolve";
 
 export const getStyles = async (path: string): Promise<string[]> => {
@@ -8,4 +8,4 @@ export const getStyles = async (path: string): Promise<string[]> => {
   return styles.map((file) => {
     return resolve(file);
   });
-}
+};
