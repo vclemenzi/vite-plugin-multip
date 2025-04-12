@@ -1,9 +1,9 @@
+import fs from "fs";
 import { minify } from "html-minifier-terser";
 import type { Config, Framework } from "../types";
-import fs from "fs";
-import { resolve } from "../utils/resolve";
 import { getLayoutByType } from "../utils/layouts";
-import { fixPath } from "../utils/path";
+import { fixNestedPath } from "../utils/path";
+import { resolve } from "../utils/resolve";
 
 export const html = async (
   body: string,
@@ -49,20 +49,22 @@ export const html = async (
       </html>`;
   }
 
+  const {fixPath} = fixNestedPath(file, config?.directory ?? "src/pages", dev?? false)
+
   const cssPath = await getLayoutByType(file, "{css,scss,sass,less}");
   const scriptPath = await getLayoutByType(file, "{ts,js}");
 
   if (cssPath) {
     code = code.replace(
       "</head>",
-      `<script type="module">import "${!dev ? resolve(cssPath) : fixPath(resolve(cssPath), config?.directory || "src/pages")}";</script></head>`
+      `<script type="module">import "${fixPath(resolve(cssPath))}";</script></head>`
     )
   }
 
   if (scriptPath) {
     code = code.replace(
       "</body>",
-      `<script type="module">import "${!dev ? resolve(scriptPath) : fixPath(resolve(scriptPath), config?.directory || "src/pages")}";</script></body>`
+      `<script type="module">import "${fixPath(scriptPath)}";</script></body>`
     )
   }
 

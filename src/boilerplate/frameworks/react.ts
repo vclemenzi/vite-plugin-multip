@@ -1,8 +1,4 @@
-import {
-  generateImports,
-  generateImportsDev,
-} from "../../assets/generateImports";
-import { fixPath } from "../../utils/path";
+import { fixNestedPath } from "../../utils/path";
 
 export const react = (
   file: string,
@@ -11,14 +7,16 @@ export const react = (
   dev: boolean,
   root: string
 ): string => {
+  const { path, fixPath, generateImports } = fixNestedPath(file, root, dev);
+
   return `
     <div id="app"></div>
     <script type="module">
-      import React from '${!dev ? "react" : "./node_modules/.vite/deps/react.js"}';
-      import ReactDOM from '${!dev ? "react-dom/client" : "./node_modules/.vite/deps/react-dom.js"}';
-      import App from '${!dev ? file : fixPath(file, root)}';
-      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
-      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
+      import React from '${fixPath('node_modules/.vite/deps/react.js', 'react')}';
+      import ReactDOM from '${fixPath('node_modules/.vite/deps/react-dom.js', 'react-dom')}';
+      import App from '${path}';
+      ${generateImports(css)}
+      ${generateImports(scripts)}
 
       const e = React.createElement;
 

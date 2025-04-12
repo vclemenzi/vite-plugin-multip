@@ -1,8 +1,4 @@
-import {
-  generateImports,
-  generateImportsDev,
-} from "../../assets/generateImports";
-import { fixPath } from "../../utils/path";
+import { fixNestedPath } from "../../utils/path";
 
 export const vue = (
   file: string,
@@ -14,14 +10,15 @@ export const vue = (
 ): string => {
   scripts = scripts.filter((script) => script.endsWith("init.ts") === false);
 
+  const { path, fixPath, generateImports } = fixNestedPath(file, root, dev)
   return `
     <div id="app"></div>
     <script type="module">
-      import { createApp } from '${!dev ? "vue" : "./node_modules/.vite/deps/vue.js"}';
-      import App from '${!dev ? file : fixPath(file, root)}';
-      ${init ? `import { init } from '${!dev ? init : fixPath(init, root)}';` : ""}
-      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
-      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
+      import { createApp } from '${fixPath('node_modules/.vite/deps/vue.js', 'vue')}';
+      import App from '${path}';
+      ${init ? `import { init } from '${fixPath(init)}';` : ""}
+      ${generateImports(css)}
+      ${generateImports(scripts)}
       const app = createApp(App);
       ${init ? "init(app);" : ""}
       app.mount('#app');

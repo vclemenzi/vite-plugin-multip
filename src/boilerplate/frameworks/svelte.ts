@@ -1,8 +1,4 @@
-import {
-  generateImports,
-  generateImportsDev,
-} from "../../assets/generateImports";
-import { fixPath } from "../../utils/path";
+import { fixNestedPath } from "../../utils/path";
 
 export const svelte = (
   file: string,
@@ -11,12 +7,13 @@ export const svelte = (
   dev: boolean,
   root: string
 ): string => {
+  const {path, generateImports} = fixNestedPath(file, root, dev);
   return `
     <div id="app"></div>
     <script type="module">
-      import App from '${!dev ? file : fixPath(file, root)}';
-      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
-      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
+      import App from '${path}';
+      ${generateImports(css)}
+      ${generateImports(scripts)}
       const app = new App({ target: document.getElementById('app') });
       export default app;
     </script>

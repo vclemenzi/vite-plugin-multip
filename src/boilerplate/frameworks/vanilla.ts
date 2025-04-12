@@ -1,9 +1,6 @@
-import {
-  generateImports,
-  generateImportsDev,
-} from "../../assets/generateImports";
 import fs from "fs";
 import { analyzePageWarns } from "../../errors/analyzePageWarns";
+import { fixNestedPath } from "../../utils/path";
 
 export const vanilla = (
   file: string,
@@ -14,13 +11,15 @@ export const vanilla = (
 ): string => {
   const html = fs.readFileSync(file, "utf-8");
 
+  
   analyzePageWarns(html);
+  const { generateImports } = fixNestedPath(file, root, dev)
 
   return `
     ${html}
     <script type="module">
-      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
-      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
+      ${generateImports(css)}
+      ${generateImports(scripts)}
     </script>
   `;
 };

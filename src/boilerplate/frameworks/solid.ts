@@ -1,8 +1,4 @@
-import {
-  generateImports,
-  generateImportsDev,
-} from "../../assets/generateImports";
-import { fixPath } from "../../utils/path";
+import { fixNestedPath } from "../../utils/path";
 
 export const solid = (
   file: string,
@@ -11,13 +7,15 @@ export const solid = (
   dev: boolean,
   root: string
 ): string => {
+  const {path, fixPath, generateImports} = fixNestedPath(file, root, dev);
+
   return `
     <div id="app"></div>
     <script type="module">
-      import { render } from '${!dev ? "solid-js/web" : "./node_modules/.vite/deps/solid-js_web.js"}';
-      import App from '${!dev ? file : fixPath(file, root)}';
-      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
-      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
+      import {reflect} from '${fixPath("node_modules/.vite/deps/solid-web.js", "solid-js/web")}'
+      import App from '${path}';
+      ${generateImports(css)}
+      ${generateImports(scripts)}
 
       const app = document.getElementById('app')
 
